@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:windowSoftInputMode="adjustResize"
+    tools:context="views.MenuActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="vertical"
+        android:layout_gravity="center">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Upload Materi"
+            android:gravity="center"
+            android:layout_marginBottom="70dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="25dp"/>
+
+        <TextView
+            android:id="@+id/textJudul1"
+            android:text="Masukkan Judul Slide Video"
+            android:textColor="@color/input_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/txtJudul1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:padding="10dp"/>
+
+        <TextView
+            android:id="@+id/linkKuis"
+            android:text="Masukkan Link Kuis"
+            android:textColor="@color/input_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:paddingTop="10dp"/>
+
+        <EditText
+            android:id="@+id/edit_Kuiss"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:padding="10dp"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Choose File"
+            android:id="@+id/buttonChoose" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:textSize="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Upload"
+            android:id="@+id/buttonUpload" />
+
+        <TextView
+            android:id="@+id/textViewResponse"
+            android:textSize="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:visibility="invisible"/>
+
+        <TextView
+            android:id="@+id/txtnameJudul"
+            android:textSize="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:visibility="invisible"/>
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

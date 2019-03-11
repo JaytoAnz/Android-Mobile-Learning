@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:windowSoftInputMode="adjustResize"
+    tools:context=".views.NilaiActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Menambahkan Link Nilai"
+        android:gravity="center"
+        android:layout_marginTop="100dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="25dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginTop="100dp">
+
+        <TextView
+            android:id="@+id/textJudulM"
+            android:textColor="@color/input_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:text="Materi"
+            android:focusableInTouchMode="true"
+            android:layout_marginTop="20dp"/>
+
+        <TextView
+            android:id="@+id/textVieww"
+            android:text="Masukkan Link Penilaian Kuis"
+            android:textColor="@color/input_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_margin="10dp"/>
+
+        <EditText
+            android:id="@+id/txtLinkNilai"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:padding="10dp"
+            android:layout_margin="10dp" />
+
+        <Button
+            android:id="@+id/btn_simpan"
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:text="Simpan"
+            android:textColor="@color/white"
+            android:background="@color/colorPrimary"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"/>
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

@@ -1,0 +1,112 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/htoolbar"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/colorPrimary"
+        android:gravity="center|left">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textColor="@color/colorWhite"
+        android:layout_marginLeft="10dp"
+        android:textSize="20dp"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/relative_2"
+        android:layout_below="@+id/htoolbar"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/linearText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/greeting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/input_login"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:text="Text" />
+
+    <TextView
+        android:id="@+id/slmt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/input_login"
+        android:textSize="15dp"
+        android:text="Selamat datang di aplikasi" />
+
+    <TextView
+        android:id="@+id/pemb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/input_login"
+        android:textSize="15dp"
+        android:text="pembelajaran online" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_alignTop="@+id/linearText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:src="@drawable/logohome"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="80dp"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="bottom"
+        android:layout_marginBottom="100dp">
+
+        <TextView
+            android:id="@+id/footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+
+            android:textColor="@color/input_login"
+            android:textSize="15dp"
+            android:text="Untuk memulai pembelajaran," />
+
+        <TextView
+            android:id="@+id/footer2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/input_login"
+            android:textSize="15dp"
+            android:text="silahkan pilih menu learning" />
+
+    </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

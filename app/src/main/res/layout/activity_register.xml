@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorPrimary"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:windowSoftInputMode="adjustResize"
+    tools:context=".views.RegisterActivity">
+
+    <TextView
+        android:id="@+id/text_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Create Akun Mahasiswa"
+        android:textColor="@color/colorColorFlower"
+        android:layout_marginBottom="40dip"
+        android:textColorHighlight="@android:color/primary_text_dark"
+        android:layout_centerVertical="true"
+        android:textSize="30dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
+
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:inputType="textPersonName"
+            android:hint="@string/hint_name"
+            android:textColorHint="@color/colorWhite"
+            android:singleLine="true"
+            android:textColor="@color/input_register"
+            android:background="@color/colorColorFlower"
+            android:ems="10"
+            android:padding="16dp" />
+
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:inputType="textEmailAddress"
+            android:hint="@string/hint_email"
+            android:background="@color/colorColorFlower"
+            android:singleLine="true"
+            android:textColor="@color/input_register"
+            android:textColorHint="@color/colorWhite"
+            android:ems="10"
+            android:padding="16dp" />
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:inputType="textPassword"
+            android:background="@color/colorColorFlower"
+            android:hint="@string/hint_password"
+            android:textColorHint="@color/colorWhite"
+            android:singleLine="true"
+            android:textColor="@color/input_register"
+            android:ems="10"
+            android:padding="16dp" />
+
+        <TextView
+            android:id="@+id/txtpengguna"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="8dp"
+            android:visibility="invisible"/>
+
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dip"
+            android:background="@color/colorColorFlower"
+            android:text="@string/btn_register"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+</LinearLayout>

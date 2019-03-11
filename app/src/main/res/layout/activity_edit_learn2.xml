@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:windowSoftInputMode="adjustResize"
+    tools:context="views.EditLearn2Activity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="vertical"
+        android:layout_gravity="center">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Edit Materi"
+            android:gravity="center"
+            android:layout_marginBottom="50dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="25dp"/>
+
+        <TextView
+            android:id="@+id/txtID"
+            android:text="ID"
+            android:textColor="@color/input_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"/>
+
+        <TextView
+            android:id="@+id/textJudul1"
+            android:text="Judul Slide Video"
+            android:textColor="@color/input_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/edit_judul2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:padding="10dp"
+            android:textSize="12dp"/>
+
+        <TextView
+            android:id="@+id/linkKuis"
+            android:text="Link Kuis"
+            android:textColor="@color/input_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"/>
+
+        <EditText
+            android:id="@+id/edit_Kuis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:padding="10dp"
+            android:textSize="12dp"/>
+
+        <TextView
+            android:id="@+id/linkNilai"
+            android:text="Link Nilai"
+            android:textColor="@color/input_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"/>
+
+        <EditText
+            android:id="@+id/edit_Nilai"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:padding="10dp"
+            android:textSize="12dp"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Choose File"
+            android:id="@+id/buttonChoose" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:textSize="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Upload"
+            android:id="@+id/buttonUpload" />
+
+        <TextView
+            android:id="@+id/textViewResponse2"
+            android:textSize="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"/>
+
+        <Button
+            android:id="@+id/btn_simpan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|right"
+            android:background="@color/colorPrimary"
+            android:text="Simpan"
+            android:textColor="@color/colorWhite" />
+
+        <TextView
+            android:id="@+id/txtnameJudul"
+            android:textSize="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:text="Text"/>
+
+        <TextView
+            android:id="@+id/textViewResponse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Text"
+            android:textSize="10dp"
+            android:visibility="invisible"/>
+
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

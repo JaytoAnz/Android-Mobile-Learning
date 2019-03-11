@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="6dp"
+    card_view:cardElevation="3dp"
+    card_view:cardUseCompatPadding="true">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/imageAcc"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:padding="4dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/users"/>
+
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="4dp"
+            android:layout_toRightOf="@id/imageAcc"
+            android:text="Username"
+            android:textSize="15dp"
+            android:textColor="@color/input_login"/>
+
+        <TextView
+            android:id="@+id/email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/username"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/imageAcc"
+            android:textColor="@color/input_login"
+            android:text="@string/hint_email" />
+
+        <TextView
+            android:id="@+id/password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/email"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/imageAcc"
+            android:textColor="@color/colorGray"
+            android:text="@string/hint_password" />
+
+        <TextView
+            android:id="@+id/levelnya"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/password"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/imageAcc"
+            android:text="Mahasiswa"
+            android:textColor="@color/input_login"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right">
+
+            <ImageView
+                android:id="@+id/btn_hapus"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/hapus_learn"
+                android:tint="@color/colorPrimary" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>
+
+</android.support.v7.widget.CardView>

@@ -1,0 +1,37 @@
+//Layout
+<Spinner
+            android:id="@+id/spinLevelR"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentLeft="true"
+            android:popupBackground="#FFFF99"
+            android:background="@color/white"/>
+
+//Backend Java
+ Spinner spLevel;
+
+    String[] users = {
+            "Pilih",
+            "dosen",
+            "mahasiswa"
+    };
+    
+spLevel = (Spinner) findViewById(R.id.spinLevelR);
+        ArrayAdapter<String> adapter= new ArrayAdapter<String>(this,android.
+                R.layout.simple_spinner_dropdown_item ,users);
+
+        spLevel.setAdapter(adapter);
+        spLevel.setOnItemSelectedListener(this);
+
+@Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        int sid=spLevel.getSelectedItemPosition();
+        Toast.makeText(getBaseContext(), "" + users[sid], Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
