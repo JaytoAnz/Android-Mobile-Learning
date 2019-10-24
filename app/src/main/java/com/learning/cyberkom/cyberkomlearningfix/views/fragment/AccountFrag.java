@@ -393,13 +393,14 @@ public class AccountFrag extends Fragment implements View.OnClickListener{
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
 
         byte[] imageByteArray = byteArrayOutputStream.toByteArray();
-        String encodeImage = Base64.encodeToString(imageByteArray, Base64.DEFAULT);
+        String encodeImage = Base64.encodeToString(imageByteArray, Base64.NO_WRAP);
 
         return encodeImage;
     }
 
     private void editPhoto(final String id, final String photo){
         progressBar.setVisibility(View.VISIBLE);
+        System.out.print(" " + photo);
         ApiURL apiURL = new ApiURL();
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.getCache().clear();
