@@ -1,4 +1,4 @@
-package com.learning.cyberkom.cyberkomlearningfix.views.fragment;
+package com.learning.cyberkom.cyberkomlearningfix.views;
 
 import android.Manifest;
 import android.app.ProgressDialog;
@@ -10,16 +10,13 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,15 +37,7 @@ import com.learning.cyberkom.cyberkomlearningfix.upload.Upload;
 import java.util.HashMap;
 import java.util.Map;
 
-import dmax.dialog.SpotsDialog;
-
-import static android.app.Activity.RESULT_OK;
-
-/**
- * Created by Jayto on 7/30/2018.
- */
-
-public class UploadFrag extends Fragment {
+public class UploadActivity extends AppCompatActivity {
 
     private Button buttonChoose;
     private Button buttonUpload;
@@ -61,28 +50,26 @@ public class UploadFrag extends Fragment {
 
     private String selectedPath;
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.frag_upload, container, false);
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.frag_upload);
 
-        buttonChoose = (Button) v.findViewById(R.id.buttonChoose);
-        buttonUpload = (Button) v.findViewById(R.id.buttonUpload);
-        btn_next = (Button) v.findViewById(R.id.btn_next);
-        textView = (TextView) v.findViewById(R.id.textView);
-        textViewResponse = (TextView) v.findViewById(R.id.textViewResponse);
-        txtJudul = (EditText) v.findViewById(R.id.txtJudul1);
+        buttonChoose = (Button) findViewById(R.id.buttonChoose);
+        buttonUpload = (Button) findViewById(R.id.buttonUpload);
+        btn_next = (Button) findViewById(R.id.btn_next);
+        textView = (TextView) findViewById(R.id.textView);
+        textViewResponse = (TextView) findViewById(R.id.textViewResponse);
+        txtJudul = (EditText) findViewById(R.id.txtJudul1);
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            if(ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
                 requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},100);
-                return v;
             }
         }
 
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         enableButton();
-
-        return v;
     }
 
     private void enableButton(){
@@ -98,7 +85,7 @@ public class UploadFrag extends Fragment {
             public void onClick(View v) {
                 String value = textView.getText().toString();
                 if(value.isEmpty()){
-                    Toast.makeText(getContext(), "Pilih Dulu Video", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UploadActivity.this , "Pilih Dulu Video", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     uploadVideo();
@@ -114,16 +101,12 @@ public class UploadFrag extends Fragment {
                 String videoUrl = textViewResponse.getText().toString();
                 String urlVideo = textView.getText().toString();
                 if (nameUrl.isEmpty() || urlVideo.isEmpty() || videoUrl.isEmpty()) {
-                    Toast.makeText(getContext(), "Isi data terlebih dahulu", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UploadActivity.this, "Isi data terlebih dahulu", Toast.LENGTH_SHORT).show();
                 } else {
                     String nameJudul = txtJudul.getText().toString();
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("nameJudul", nameJudul);
-                    UploadFrag2 uploadFrag2 = new UploadFrag2();
-                    uploadFrag2.setArguments(bundle);
-                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                    FragmentTransaction transaction = fragmentManager.beginTransaction();
-                    transaction.replace(R.id.frame_container, uploadFrag2).commit();
+                    Intent intent = new Intent(UploadActivity.this, Upload2Activity.class);
+                    intent.putExtra("nameJudul", nameJudul);
+                    startActivity(intent);
                 }
             }
         });
@@ -149,13 +132,13 @@ public class UploadFrag extends Fragment {
     }
 
     public String getPath(Uri uri) {
-        Cursor cursor = getActivity().getContentResolver().query(uri, null, null, null, null);
+        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
         cursor.moveToFirst();
         String document_id = cursor.getString(0);
         document_id = document_id.substring(document_id.lastIndexOf(":") + 1);
         cursor.close();
 
-        cursor = getActivity().getContentResolver().query(
+        cursor = getContentResolver().query(
                 android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
                 null, MediaStore.Images.Media._ID + " = ? ", new String[]{document_id}, null);
         cursor.moveToFirst();
@@ -173,7 +156,7 @@ public class UploadFrag extends Fragment {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                uploading = ProgressDialog.show(getContext(), "Uploading File", "Please wait...", false, false);
+                uploading = ProgressDialog.show(UploadActivity.this, "Uploading File", "Please wait...", false, false);
                 uploading.setIndeterminate(false);
             }
 
@@ -203,9 +186,7 @@ public class UploadFrag extends Fragment {
         String videoUrl = textViewResponse.getText().toString();
         String urlVideo = textView.getText().toString();
         if (urlVideo.isEmpty() || videoUrl.isEmpty()) {
-
-            Toast.makeText(getContext(), "Data Tidak ada", Toast.LENGTH_SHORT).show();
-
+            Toast.makeText(this, "Data Tidak ada", Toast.LENGTH_SHORT).show();
         } else {
             save(nameUrl, videoUrl);
         }
@@ -213,20 +194,19 @@ public class UploadFrag extends Fragment {
 
     public void save(final String judul, final String Url){
         ApiURL apiURL = new ApiURL();
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.getCache().clear();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, apiURL.getSaveVideo(), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
-                Toast.makeText(getContext(), "Success, Silahkan Next", Toast.LENGTH_LONG).show();
+                Toast.makeText(UploadActivity.this, "Success, Silahkan Next", Toast.LENGTH_LONG).show();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
 
                 Log.i("Hitesh", "" + error);
-                Toast.makeText(getContext(), "" + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(UploadActivity.this, "" + error, Toast.LENGTH_SHORT).show();
 
             }
         })

@@ -3,14 +3,12 @@ package com.learning.cyberkom.cyberkomlearningfix.views.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -28,8 +27,10 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.learning.cyberkom.cyberkomlearningfix.R;
 import com.learning.cyberkom.cyberkomlearningfix.adapter.LearnAdapter;
+import com.learning.cyberkom.cyberkomlearningfix.helper.Utils;
 import com.learning.cyberkom.cyberkomlearningfix.model.ApiURL;
 import com.learning.cyberkom.cyberkomlearningfix.model.Mlearning;
+import com.learning.cyberkom.cyberkomlearningfix.views.UploadActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,7 +39,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.content.Context.CONNECTIVITY_SERVICE;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
@@ -47,6 +47,7 @@ public class LearnFrag extends Fragment implements SwipeRefreshLayout.OnRefreshL
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private List<Mlearning> learnList;
+    private ProgressBar progressBar;
     SwipeRefreshLayout swipeRefreshLayout;
     FloatingActionButton fab;
 
@@ -55,6 +56,7 @@ public class LearnFrag extends Fragment implements SwipeRefreshLayout.OnRefreshL
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.frag_learn, container, false);
 
+        progressBar = v.findViewById(R.id.progressBar);
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
         fab = v.findViewById(R.id.fabtambah);
 
@@ -72,22 +74,14 @@ public class LearnFrag extends Fragment implements SwipeRefreshLayout.OnRefreshL
                 android.R.color.holo_orange_dark,
                 android.R.color.holo_blue_dark);
 
-        swipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(true);
-                checkInternet();
-            }
-        });
-
         //eksekusi
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (CheckNetwork()) {
+                if (Utils.isNetworkAvailable(getActivity())) {
                     tampilUpload();
-                }else if (!CheckNetwork()) {
+                }else {
                     Toast.makeText(getContext(), "Network Disconnected", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -106,7 +100,8 @@ public class LearnFrag extends Fragment implements SwipeRefreshLayout.OnRefreshL
         });
 
         Validate();
-        onBackPressed();
+        checkInternet();
+        showLoading(true);
 
         return v;
     }
@@ -114,62 +109,39 @@ public class LearnFrag extends Fragment implements SwipeRefreshLayout.OnRefreshL
     public void Validate(){
         SharedPreferences shared = getContext().getSharedPreferences("Mypref_Login", Context.MODE_PRIVATE);
         String val = shared.getString("levelKey", "");
-        if(val.equals("dosen")){
+        if(val.equals("mentor")){
             fab.setVisibility(VISIBLE);
         }else{
             fab.setVisibility(GONE);
         }
     }
 
-    public void onBackPressed()
-    {
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        fm.popBackStack();
+    private void showLoading(Boolean state) {
+        if (state) {
+            progressBar.setVisibility(View.VISIBLE);
+        } else {
+            progressBar.setVisibility(View.GONE);
+        }
     }
 
     public void tampilUpload() {
-        UploadFrag uploadFrag = new UploadFrag();
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frame_container, uploadFrag);
-        fragmentTransaction.commit();
+        Intent intent = new Intent(getActivity(), UploadActivity.class);
+        startActivity(intent);
     }
 
     public void checkInternet(){
-        if(CheckNetwork()) {
+        if(Utils.isNetworkAvailable(getActivity())) {
             loadData();
-        }
-        else if (!CheckNetwork()){
-            Toast.makeText(getContext(), "Network Disconnected ", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getActivity(), "Network Disconnected ", Toast.LENGTH_SHORT).show();
             swipeRefreshLayout.setRefreshing(false);
         }
     }
 
-    private boolean CheckNetwork(){
-        boolean WIFI = false;
-        boolean DATA_MOBILE = false;
-
-        ConnectivityManager connectivityManager = (ConnectivityManager) getContext().getSystemService(CONNECTIVITY_SERVICE);
-        NetworkInfo[] networkInfos = connectivityManager.getAllNetworkInfo();
-
-        for (NetworkInfo info : networkInfos){
-            if(info.getTypeName().equalsIgnoreCase("WIFI"))
-                if (info.isConnected())
-                    WIFI = true;
-
-            if(info.getTypeName().equalsIgnoreCase("MOBILE"))
-                if (info.isConnected())
-                    DATA_MOBILE = true;
-        }
-
-        return WIFI||DATA_MOBILE;
-    }
-
     public void loadData(){
-        swipeRefreshLayout.setRefreshing(true);
         learnList.clear();
         ApiURL apiURL = new ApiURL();
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         requestQueue.getCache().clear();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, apiURL.getViewMateri(), new Response.Listener<String>() {
             @Override
@@ -205,12 +177,15 @@ public class LearnFrag extends Fragment implements SwipeRefreshLayout.OnRefreshL
                     swipeRefreshLayout.setRefreshing(false);
                 }
 
+                showLoading(false);
                 adapter.notifyDataSetChanged();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(), " Network Disconnected ", Toast.LENGTH_LONG).show();
+                swipeRefreshLayout.setRefreshing(false);
+                Log.d("onFailure", ""  + error);
+                showLoading(false);
             }
         });
 
@@ -222,13 +197,4 @@ public class LearnFrag extends Fragment implements SwipeRefreshLayout.OnRefreshL
         checkInternet();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
 }

@@ -1,14 +1,13 @@
-package com.learning.cyberkom.cyberkomlearningfix.views.fragment;
+package com.learning.cyberkom.cyberkomlearningfix.views;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,9 +24,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.learning.cyberkom.cyberkomlearningfix.R;
 import com.learning.cyberkom.cyberkomlearningfix.adapter.AkunAdapter;
+import com.learning.cyberkom.cyberkomlearningfix.helper.Utils;
 import com.learning.cyberkom.cyberkomlearningfix.model.AkunUser;
 import com.learning.cyberkom.cyberkomlearningfix.model.ApiURL;
-import com.learning.cyberkom.cyberkomlearningfix.views.RegisterActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,9 +35,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.content.Context.CONNECTIVITY_SERVICE;
-
-public class ViewAccountMhs extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
+public class ViewAccountActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter akunAdapter;
@@ -47,22 +44,22 @@ public class ViewAccountMhs extends Fragment implements SwipeRefreshLayout.OnRef
     TextView titleakun;
     SwipeRefreshLayout swipeRefreshLayout;
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.frag_view_account_mhs, container, false);
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.frag_view_account_mhs);
 
-        titleakun = (TextView) v.findViewById(R.id.titleakun);
-        recyclerView = (RecyclerView) v.findViewById(R.id.recylcerView);
+        titleakun = findViewById(R.id.titleakun);
+        recyclerView = findViewById(R.id.recylcerView);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        fab = v.findViewById(R.id.fabtambah_user);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        fab = findViewById(R.id.fabtambah_user);
 
         akunUserList = new ArrayList<>();
-        akunAdapter = new AkunAdapter(akunUserList, getContext().getApplicationContext());
+        akunAdapter = new AkunAdapter(akunUserList, this);
         recyclerView.setAdapter(akunAdapter);
 
-        swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_container);
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
         swipeRefreshLayout.setOnRefreshListener(this);
 
         swipeRefreshLayout.post(new Runnable() {
@@ -76,8 +73,8 @@ public class ViewAccountMhs extends Fragment implements SwipeRefreshLayout.OnRef
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext().getApplicationContext(), RegisterActivity.class);
-                getContext().startActivity(intent);
+                Intent intent = new Intent(ViewAccountActivity.this, RegisterActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -94,62 +91,40 @@ public class ViewAccountMhs extends Fragment implements SwipeRefreshLayout.OnRef
         });
 
         validasi();
-
-        return v;
     }
 
     private void validasi(){
-        SharedPreferences shared = getContext().getSharedPreferences("Mypref_Login", Context.MODE_PRIVATE);
+        SharedPreferences shared = getSharedPreferences("Mypref_Login", Context.MODE_PRIVATE);
         String valLevel = shared.getString("levelKey", "");
-        if(valLevel.equals("dosen")){
+        if(valLevel.equals("mentor")){
             fab.setVisibility(View.VISIBLE);
         }else{
             fab.setVisibility(View.GONE);
-            titleakun.setText("Profil Dosen");
+            titleakun.setText("Profil Mentor");
         }
     }
 
     public void checkInternet(){
-        if(CheckNetwork()) {
+        if(Utils.isNetworkAvailable(this)) {
             loadData();
-        } else if (!CheckNetwork()){
-            Toast.makeText(getContext(), "Network Disconnected ", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Network Disconnected ", Toast.LENGTH_LONG).show();
             swipeRefreshLayout.setRefreshing(false);
         }
-    }
-
-    private boolean CheckNetwork(){
-        boolean WIFI = false;
-        boolean DATA_MOBILE = false;
-
-        ConnectivityManager connectivityManager = (ConnectivityManager) getContext().getSystemService(CONNECTIVITY_SERVICE);
-        NetworkInfo[] networkInfos = connectivityManager.getAllNetworkInfo();
-
-        for (NetworkInfo info : networkInfos){
-            if(info.getTypeName().equalsIgnoreCase("WIFI"))
-                if (info.isConnected())
-                    WIFI = true;
-
-            if(info.getTypeName().equalsIgnoreCase("MOBILE"))
-                if (info.isConnected())
-                    DATA_MOBILE = true;
-        }
-
-        return WIFI||DATA_MOBILE;
     }
 
     public void loadData(){
         swipeRefreshLayout.setRefreshing(true);
         akunUserList.clear();
         final ApiURL apiURL = new ApiURL();
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
         String level = null;
-        SharedPreferences shared = getContext().getSharedPreferences("Mypref_Login", Context.MODE_PRIVATE);
+        SharedPreferences shared = getSharedPreferences("Mypref_Login", Context.MODE_PRIVATE);
         String valLevel = shared.getString("levelKey", "");
-        if(valLevel.equals("dosen")){
-            level = "mahasiswa";
+        if(valLevel.equals("mentor")){
+            level = "anggota";
         }else{
-            level = "dosen";
+            level = "mentor";
         }
         StringRequest stringRequest = new StringRequest(Request.Method.GET, apiURL.getViewAccount() + "?level=" + level, new Response.Listener<String>() {
             @Override
@@ -188,7 +163,7 @@ public class ViewAccountMhs extends Fragment implements SwipeRefreshLayout.OnRef
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(), "Network Disconnected", Toast.LENGTH_LONG).show();
+                Toast.makeText(ViewAccountActivity.this, "Network Disconnected", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -200,15 +175,5 @@ public class ViewAccountMhs extends Fragment implements SwipeRefreshLayout.OnRef
     @Override
     public void onRefresh() {
         checkInternet();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
     }
 }

@@ -21,92 +21,74 @@
     </LinearLayout>
 
     <RelativeLayout
-        android:id="@+id/relative_2"
-        android:layout_below="@+id/htoolbar"
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-    <LinearLayout
-        android:id="@+id/linearText"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/greeting"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/input_login"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:text="Text" />
-
-    <TextView
-        android:id="@+id/slmt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/input_login"
-        android:textSize="15dp"
-        android:text="Selamat datang di aplikasi" />
-
-    <TextView
-        android:id="@+id/pemb"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textColor="@color/input_login"
-        android:textSize="15dp"
-        android:text="pembelajaran online" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_alignTop="@+id/linearText"
+        android:id="@+id/containerHeader"
+        android:layout_marginTop="15dp"
+        android:layout_below="@id/htoolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:src="@drawable/logohome"
+        <TextView
+            android:id="@+id/greeting"
+            android:layout_centerHorizontal="true"
+            android:text="Hi, "
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_margin="80dp"
-            android:layout_gravity="center"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="bottom"
-        android:layout_marginBottom="100dp">
+            android:layout_height="wrap_content"/>
 
         <TextView
-            android:id="@+id/footer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-
-            android:textColor="@color/input_login"
-            android:textSize="15dp"
-            android:text="Untuk memulai pembelajaran," />
+            android:layout_marginTop="5dp"
+            android:id="@+id/deksrip1"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/greeting"
+            android:text="Selamat datang di aplikasi"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <TextView
-            android:id="@+id/footer2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@color/input_login"
-            android:textSize="15dp"
-            android:text="silahkan pilih menu learning" />
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/deksrip1"
+            android:text="SEGER"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
-    </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="80dp">
+
+        <ImageView
+            android:id="@+id/imageLogo"
+            android:src="@drawable/ic_logo_academic_movement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:textColor="@color/black"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@+id/deksrip3"
+            android:textSize="15dp"
+            android:text="Untuk memulai pembelajaran,"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:textColor="@color/black"
+            android:id="@+id/deksrip3"
+            android:textSize="15dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignBottom="@+id/imageLogo"
+            android:text="silahkan pilih menu learning"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
     </RelativeLayout>
 
 </RelativeLayout>

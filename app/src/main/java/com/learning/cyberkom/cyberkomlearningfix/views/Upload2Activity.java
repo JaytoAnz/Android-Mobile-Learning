@@ -1,4 +1,4 @@
-package com.learning.cyberkom.cyberkomlearningfix.views.fragment;
+package com.learning.cyberkom.cyberkomlearningfix.views;
 
 import android.Manifest;
 import android.app.ProgressDialog;
@@ -10,16 +10,13 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -39,15 +36,7 @@ import com.learning.cyberkom.cyberkomlearningfix.upload.Upload;
 import java.util.HashMap;
 import java.util.Map;
 
-import dmax.dialog.SpotsDialog;
-
-import static android.app.Activity.RESULT_OK;
-
-/**
- * Created by Jayto on 8/15/2018.
- */
-
-public class UploadFrag2 extends Fragment {
+public class Upload2Activity extends AppCompatActivity {
 
     private Button buttonChoose2;
     private Button buttonUpload2;
@@ -58,32 +47,32 @@ public class UploadFrag2 extends Fragment {
     private static final int SELECT_VIDEO2 = 3;
     private String selectedPath2;
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.frag_upload2, container, false);
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.frag_upload2);
 
-        buttonChoose2 = (Button) v.findViewById(R.id.buttonChoose);
-        buttonUpload2 = (Button) v.findViewById(R.id.buttonUpload);
-        textView2 = (TextView) v.findViewById(R.id.textView);
-        textViewResponse2 = (TextView) v.findViewById(R.id.textViewResponse);
-        txtJudul2 = (EditText) v.findViewById(R.id.txtJudul1);
-        textnameJudul = (TextView) v.findViewById(R.id.txtnameJudul);
-        edit_kuis = (EditText) v.findViewById(R.id.edit_Kuiss);
+        buttonChoose2 = findViewById(R.id.buttonChoose);
+        buttonUpload2 = findViewById(R.id.buttonUpload);
+        textView2 = findViewById(R.id.textView);
+        textViewResponse2 = findViewById(R.id.textViewResponse);
+        txtJudul2 = findViewById(R.id.txtJudul1);
+        textnameJudul = findViewById(R.id.txtnameJudul);
+        edit_kuis = findViewById(R.id.edit_Kuiss);
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            if(ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            if(ActivityCompat.checkSelfPermission(Upload2Activity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
                 requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},100);
-                return v;
             }
         }
 
-        Bundle b = getArguments();
-        String getName = (String) b.get("nameJudul");
-        textnameJudul.setText(getName);
+        Bundle b = getIntent().getExtras();
+        if (b != null) {
+            String getName = b.getString("nameJudul");
+            textnameJudul.setText(getName);
+        }
 
         enableButton();
-
-        return v;
     }
 
     private void enableButton(){
@@ -99,11 +88,9 @@ public class UploadFrag2 extends Fragment {
             public void onClick(View v) {
                 String value = textView2.getText().toString();
                 if(value.isEmpty()){
-                    Toast.makeText(getContext(), "Pilih Dulu Video", Toast.LENGTH_SHORT).show();
-                }
-                else {
+                    Toast.makeText(Upload2Activity.this, "Pilih Dulu Video", Toast.LENGTH_SHORT).show();
+                } else {
                     uploadVideo();
-
                 }
             }
         });
@@ -129,13 +116,13 @@ public class UploadFrag2 extends Fragment {
     }
 
     public String getPath(Uri uri) {
-        Cursor cursor = getContext().getContentResolver().query(uri, null, null, null, null);
+        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
         cursor.moveToFirst();
         String document_id = cursor.getString(0);
         document_id = document_id.substring(document_id.lastIndexOf(":") + 1);
         cursor.close();
 
-        cursor = getContext().getContentResolver().query(
+        cursor = getContentResolver().query(
                 android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
                 null, MediaStore.Images.Media._ID + " = ? ", new String[]{document_id}, null);
         cursor.moveToFirst();
@@ -153,7 +140,7 @@ public class UploadFrag2 extends Fragment {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                uploading = ProgressDialog.show(getContext(), "Uploading File", "Please wait...", false, false);
+                uploading = ProgressDialog.show(Upload2Activity.this, "Uploading File", "Please wait...", false, false);
                 uploading.setIndeterminate(false);
             }
 
@@ -184,9 +171,7 @@ public class UploadFrag2 extends Fragment {
         String nameUrl = textnameJudul.getText().toString();
         String linkKuis = edit_kuis.getText().toString();
         if (nameUrl2.isEmpty()|| urlVideo.isEmpty() || videoUrl.isEmpty() || linkKuis.isEmpty() ) {
-
-            Toast.makeText(getContext(), "Data Tidak ada", Toast.LENGTH_SHORT).show();
-
+            Toast.makeText(Upload2Activity.this, "Data Tidak ada", Toast.LENGTH_SHORT).show();
         } else {
             save(nameUrl2, videoUrl, nameUrl, linkKuis);
         }
@@ -194,18 +179,16 @@ public class UploadFrag2 extends Fragment {
 
     public void save(final String judul2, final String Url, final String judul, final String linkKuis){
         ApiURL apiURL = new ApiURL();
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        RequestQueue requestQueue = Volley.newRequestQueue(Upload2Activity.this);
         requestQueue.getCache().clear();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, apiURL.getSaveVideo2(), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(getContext(), "Succes, Data Telah Tersimpan", Toast.LENGTH_LONG).show();
+                Toast.makeText(Upload2Activity.this, "Succes, Data Telah Tersimpan", Toast.LENGTH_LONG).show();
 
-                LearnFrag learnFrag = new LearnFrag();
-                FragmentTransaction ft  = getFragmentManager().beginTransaction();
-                ft.replace(R.id.frame_container, learnFrag);
-                ft.commit();
-
+                Intent intent = new Intent(Upload2Activity.this, MenuActivity.class);
+                intent.putExtra(MenuActivity.FRAG_LEARN, "learfrag");
+                startActivity(intent);
             }
         }, new Response.ErrorListener() {
             @Override

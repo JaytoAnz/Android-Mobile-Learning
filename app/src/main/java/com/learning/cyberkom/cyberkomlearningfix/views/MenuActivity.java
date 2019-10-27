@@ -17,11 +17,7 @@ import com.learning.cyberkom.cyberkomlearningfix.views.fragment.LearnFrag;
 
 public class MenuActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
-    protected BottomNavigationView navigationView;
-    private DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle mToggle;
-
-    private Toolbar mToolbar;
+    public static String FRAG_LEARN = "frag_learn";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +31,13 @@ public class MenuActivity extends AppCompatActivity implements BottomNavigationV
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(this);
 
-        //Toolbar
-//        mToolbar = (Toolbar) findViewById(R.id.toolbarr);
-//        setSupportActionBar(mToolbar);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            String fragLearn = bundle.getString(FRAG_LEARN);
+            if (fragLearn != null) {
+                loadFragment(new LearnFrag());
+            }
+        }
 
     }
 
@@ -72,15 +72,5 @@ public class MenuActivity extends AppCompatActivity implements BottomNavigationV
             return true;
         }
         return false;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (mToggle.onOptionsItemSelected(item)){
-            return true;
-
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }

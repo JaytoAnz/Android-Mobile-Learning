@@ -25,6 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.learning.cyberkom.cyberkomlearningfix.helper.Utils;
 import com.learning.cyberkom.cyberkomlearningfix.model.ApiURL;
 import com.learning.cyberkom.cyberkomlearningfix.views.MenuActivity;
 
@@ -48,8 +49,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     Context context;
     String[] users = {
             "Pilih",
-            "dosen",
-            "mahasiswa"
+            "mentor",
+            "anggota"
     };
 
     private static final String KEYNAME = "username";
@@ -83,7 +84,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        if (CheckNetwork()) {
+        if (Utils.isNetworkAvailable(this)) {
             if (v.getId() == R.id.btnLogin) {
                 final String username = namenew.getText().toString().trim();
                 final String pass = passwordnew.getText().toString().trim();
@@ -155,7 +156,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     requestQueue.add(stringRequest);
                 }
             }
-        }else if (!CheckNetwork()) {
+        }else {
             Toast.makeText(this, "Network Disconnected", Toast.LENGTH_SHORT).show();
         }
     }
@@ -170,26 +171,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
-    }
-
-    private boolean CheckNetwork(){
-        boolean WIFI = false;
-        boolean DATA_MOBILE = false;
-
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        NetworkInfo[] networkInfos = connectivityManager.getAllNetworkInfo();
-
-        for (NetworkInfo info : networkInfos){
-            if(info.getTypeName().equalsIgnoreCase("WIFI"))
-                if (info.isConnected())
-                    WIFI = true;
-
-            if(info.getTypeName().equalsIgnoreCase("MOBILE"))
-                if (info.isConnected())
-                    DATA_MOBILE = true;
-        }
-
-        return WIFI||DATA_MOBILE;
     }
 
     @Override

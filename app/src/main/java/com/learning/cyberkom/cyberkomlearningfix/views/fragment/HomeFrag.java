@@ -27,10 +27,6 @@ public class HomeFrag extends Fragment {
         View v = inflater.inflate(R.layout.frag_home, container, false);
 
         greeting = v.findViewById(R.id.greeting);
-        slmt = v.findViewById(R.id.slmt);
-        pemb = v.findViewById(R.id.pemb);
-        footer = v.findViewById(R.id.footer);
-        footer2 = v.findViewById(R.id.footer2);
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             if(ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
@@ -48,7 +44,7 @@ public class HomeFrag extends Fragment {
         SharedPreferences shared = getActivity().getSharedPreferences("Mypref_Login", Context.MODE_PRIVATE);
         String level = shared.getString("levelKey", "");
         String username = shared.getString("usernameKey", "");
-        if (level.equals("dosen")) {
+        if (level.equals("mentor")) {
             footer.setVisibility(View.GONE);
             footer2.setVisibility(View.GONE);
             greeting.setText("Hi, Mr. " +username);

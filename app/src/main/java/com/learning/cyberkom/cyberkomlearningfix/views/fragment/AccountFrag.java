@@ -49,6 +49,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.learning.cyberkom.cyberkomlearningfix.LoginActivity;
 import com.learning.cyberkom.cyberkomlearningfix.R;
 import com.learning.cyberkom.cyberkomlearningfix.model.ApiURL;
+import com.learning.cyberkom.cyberkomlearningfix.views.ViewAccountActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -130,11 +131,8 @@ public class AccountFrag extends Fragment implements View.OnClickListener{
         ViewAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ViewAccountMhs viewAccountMhs = new ViewAccountMhs();
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.frame_container, viewAccountMhs);
-                fragmentTransaction.commit();
+                Intent intent = new Intent(getActivity(), ViewAccountActivity.class);
+                startActivity(intent);
             }
         });
 

@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -27,11 +26,8 @@ import com.bumptech.glide.request.RequestOptions;
 import com.learning.cyberkom.cyberkomlearningfix.R;
 import com.learning.cyberkom.cyberkomlearningfix.model.AkunUser;
 import com.learning.cyberkom.cyberkomlearningfix.model.ApiURL;
-import com.learning.cyberkom.cyberkomlearningfix.views.fragment.ViewAccountMhs;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
