@@ -45,8 +45,8 @@ public class HomeFrag extends Fragment {
         String level = shared.getString("levelKey", "");
         String username = shared.getString("usernameKey", "");
         if (level.equals("mentor")) {
-            footer.setVisibility(View.GONE);
-            footer2.setVisibility(View.GONE);
+//            footer.setVisibility(View.GONE);
+//            footer2.setVisibility(View.GONE);
             greeting.setText("Hi, Mr. " +username);
         }else {
             greeting.setText("Hi, " +username);

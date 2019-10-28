@@ -2,6 +2,7 @@ package com.learning.cyberkom.cyberkomlearningfix.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +27,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.learning.cyberkom.cyberkomlearningfix.R;
 import com.learning.cyberkom.cyberkomlearningfix.model.AkunUser;
 import com.learning.cyberkom.cyberkomlearningfix.model.ApiURL;
+import com.learning.cyberkom.cyberkomlearningfix.views.ViewAccountActivity;
 
 import java.util.List;
 
@@ -48,7 +50,7 @@ public class AkunAdapter extends RecyclerView.Adapter<AkunAdapter.AkunViewHolder
         private TextView username, password, email, level;
         private ImageView ImageAcc, btn_hapus;
 
-        public AkunViewHolder(View itemView, Context mCtx, List<AkunUser> dataList) {
+        public AkunViewHolder(View itemView, final Context mCtx, List<AkunUser> dataList) {
             super(itemView);
             this.mCtx = mCtx;
             this.dataList = dataList;
@@ -80,9 +82,7 @@ public class AkunAdapter extends RecyclerView.Adapter<AkunAdapter.AkunViewHolder
                                             Log.i("Hitesh", "" + response);
                                             Toast.makeText(v.getContext(), "" + response, Toast.LENGTH_SHORT).show();
 
-                                            ViewAccountMhs viewAccountMhs = new ViewAccountMhs();
-                                            AppCompatActivity activity = (AppCompatActivity) v.getContext();
-                                            activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_container, viewAccountMhs).commit();
+                                            mCtx.startActivity(new Intent(mCtx, ViewAccountActivity.class));
 
                                         }
                                     }, new Response.ErrorListener() {

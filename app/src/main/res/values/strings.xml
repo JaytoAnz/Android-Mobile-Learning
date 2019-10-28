@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Cyberkom Learning</string>
+    <string name="app_name">SeGer</string>
     <string name="title_activity_menu">MenuActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>

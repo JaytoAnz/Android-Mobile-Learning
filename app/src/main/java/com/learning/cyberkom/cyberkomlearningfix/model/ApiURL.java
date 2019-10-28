@@ -1,8 +1,8 @@
 package com.learning.cyberkom.cyberkomlearningfix.model;
 
 public class ApiURL {
-//    public static final String URL = "https://cylearn.pmiicyberkom.org/";
-    public static final String URL = "http://192.168.100.4/santri_konsultan/";
+    public static final String URL = "https://seger.pmiikarawang.or.id/";
+//    public static final String URL = "http://192.168.100.4/santri_konsultan/";
     public static final String SignIn = URL + "index.php";
     public static final String SignUp = URL + "register.php";
     public static final String Upload = URL + "upload.php";

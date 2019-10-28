@@ -49,6 +49,7 @@ public class UploadActivity extends AppCompatActivity {
     private static final int SELECT_VIDEO = 3;
 
     private String selectedPath;
+    private Boolean clickNext = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -221,5 +222,16 @@ public class UploadActivity extends AppCompatActivity {
         };
 
         requestQueue.add(stringRequest);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (clickNext) {
+            Intent intent = new Intent(UploadActivity.this, MenuActivity.class);
+            intent.putExtra(MenuActivity.FRAG_LEARN, "learfrag");
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "Isi Materi ke 2 dahulu", Toast.LENGTH_SHORT).show();
+        }
     }
 }

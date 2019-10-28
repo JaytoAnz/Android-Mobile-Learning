@@ -4,8 +4,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -24,7 +29,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.learning.cyberkom.cyberkomlearningfix.R;
+import com.learning.cyberkom.cyberkomlearningfix.helper.Utils;
 import com.learning.cyberkom.cyberkomlearningfix.model.ApiURL;
 import com.learning.cyberkom.cyberkomlearningfix.model.Mlearning;
 import com.learning.cyberkom.cyberkomlearningfix.views.EditLearnActivity;
@@ -58,27 +66,27 @@ public class LearnAdapter extends RecyclerView.Adapter<LearnAdapter.LearnViewHol
         private final List<Mlearning> dataList;
         private final Context ctx;
         public TextView txtJudul;
-        public TextView txtVideo;
+        public ImageView txtVideo;
         public TextView txtJudul2;
-        public TextView txtVideo2;
+        public ImageView txtVideo2;
         public TextView txtlinkkuis, txtNilai, Nilai, create_date;
         public ImageView imageView, imageView1, imageView2;
 
-        public LearnViewHolder(View itemView, final Context ctx, List<Mlearning> dataList) {
+        public LearnViewHolder(View itemView, final Context ctx, final List<Mlearning> dataList) {
             super(itemView);
             this.dataList = dataList;
             this.ctx = ctx;
-            txtJudul = (TextView) itemView.findViewById(R.id.txt_judul);
-            txtVideo = (TextView) itemView.findViewById(R.id.txt_video);
-            txtJudul2 = (TextView) itemView.findViewById(R.id.txt_judul2);
-            txtVideo2 = (TextView) itemView.findViewById(R.id.txt_video2);
-            txtNilai = (TextView) itemView.findViewById(R.id.txtNilai);
-            txtlinkkuis = (TextView) itemView.findViewById(R.id.txtlinkkuis);
-            Nilai = (TextView) itemView.findViewById(R.id.Nilai);
-            imageView = (ImageView) itemView.findViewById(R.id.btn_edit);
-            imageView1 = (ImageView) itemView.findViewById(R.id.btn_hapus);
-            imageView2 = (ImageView) itemView.findViewById(R.id.btn_tmbahNilai);
-            create_date = (TextView) itemView.findViewById(R.id.txtdate);
+            txtJudul = itemView.findViewById(R.id.txt_judul);
+            txtVideo = itemView.findViewById(R.id.txt_video);
+            txtJudul2 = itemView.findViewById(R.id.txt_judul2);
+            txtVideo2 = itemView.findViewById(R.id.txt_video2);
+            txtNilai = itemView.findViewById(R.id.txtNilai);
+            txtlinkkuis = itemView.findViewById(R.id.txtlinkkuis);
+            Nilai = itemView.findViewById(R.id.Nilai);
+            imageView = itemView.findViewById(R.id.btn_edit);
+            imageView1 = itemView.findViewById(R.id.btn_hapus);
+            imageView2 = itemView.findViewById(R.id.btn_tmbahNilai);
+            create_date = itemView.findViewById(R.id.txtdate);
 
             SharedPreferences shared = itemView.getContext().getSharedPreferences("Mypref_Login", Context.MODE_PRIVATE);
             final String val = shared.getString("levelKey", "");
@@ -95,12 +103,12 @@ public class LearnAdapter extends RecyclerView.Adapter<LearnAdapter.LearnViewHol
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String value1 = txtJudul.getText().toString();
-                    String value2 = txtVideo.getText().toString();
-                    String value3 = txtJudul2.getText().toString();
-                    String value4 = txtVideo2.getText().toString();
-                    String value5 = txtlinkkuis.getText().toString();
-                    String value6 = Nilai.getText().toString();
+                    String value1 = dataList.get(getAdapterPosition()).nameurl;
+                    String value2 = dataList.get(getAdapterPosition()).video;
+                    String value3 = dataList.get(getAdapterPosition()).nameurl2;
+                    String value4 = dataList.get(getAdapterPosition()).video2;
+                    String value5 = dataList.get(getAdapterPosition()).linkkuis;
+                    String value6 = dataList.get(getAdapterPosition()).linknilai;
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("judulUrl", value1);
                     bundle.putSerializable("nameUrl", value2);
@@ -199,15 +207,8 @@ public class LearnAdapter extends RecyclerView.Adapter<LearnAdapter.LearnViewHol
                 @Override
                 public void onClick(View v) {
                     String value1 = txtJudul.getText().toString();
-                    String value2 = txtVideo.getText().toString();
+                    String value2 = dataList.get(getAdapterPosition()).video;
                     String value3 = txtlinkkuis.getText().toString();
-//                    SharedPreferences preferences = v.getContext().getSharedPreferences("Mypref_Learn", Context.MODE_PRIVATE);
-//                    SharedPreferences.Editor editor = preferences.edit();
-//                    editor.clear();
-//                    editor.putString("judulKey", value1);
-//                    editor.putString("videoKey", value2);
-//                    editor.putString("linkKuisKey", value3);
-//                    editor.commit();
                     Intent intent = new Intent(v.getContext().getApplicationContext(), PlayActivity.class);
                     intent.putExtra("judulUrl", value1);
                     intent.putExtra("nameUrl", value2);
@@ -219,7 +220,7 @@ public class LearnAdapter extends RecyclerView.Adapter<LearnAdapter.LearnViewHol
                 @Override
                 public void onClick(View v) {
                     String value1 = txtJudul2.getText().toString();
-                    String value2 = txtVideo2.getText().toString();
+                    String value2 = dataList.get(getAdapterPosition()).video2;
                     String value3 = txtlinkkuis.getText().toString();
                     Intent intent = new Intent(v.getContext().getApplicationContext(), PlayActivity.class);
                     intent.putExtra("judulUrl2", value1);
@@ -240,10 +241,35 @@ public class LearnAdapter extends RecyclerView.Adapter<LearnAdapter.LearnViewHol
 
     @Override
     public void onBindViewHolder(LearnViewHolder holder, int position) {
-        holder.txtJudul.setText(dataList.get(position).getNameurl());
-        holder.txtVideo.setText(dataList.get(position).getVideo());
-        holder.txtJudul2.setText(dataList.get(position).getNameurl2());
-        holder.txtVideo2.setText(dataList.get(position).getVideo2());
+        String title = dataList.get(position).getNameurl();
+        holder.txtJudul.setText(title);
+        String defaultt = "null";
+        holder.txtJudul.setText(title);
+        String link = dataList.get(position).getVideo();
+        try {
+            Bitmap thumbnail = Utils.retriveVideoFrameFromVideo(link);
+            holder.txtVideo.setImageBitmap(thumbnail);
+        } catch (Throwable throwable) {
+            Log.d("LEARNN ", throwable.toString());
+        }
+        String title2 = dataList.get(position).getNameurl2();
+        if (title2.equals(defaultt)) {
+            holder.txtJudul2.setText("");
+            holder.txtVideo2.setClickable(false);
+            holder.txtVideo2.setFocusable(false);
+        } else {
+            String link2 = dataList.get(position).getVideo2();
+            holder.txtVideo2.setFocusable(true);
+            holder.txtVideo2.setClickable(true);
+            try {
+                Bitmap thumbnail = Utils.retriveVideoFrameFromVideo(link2);
+                holder.txtVideo2.setImageBitmap(thumbnail);
+            } catch (Throwable throwable) {
+                Log.d("LEARNN ", throwable.toString());
+            }
+            holder.txtJudul2.setText(title2);
+        }
+
         holder.txtlinkkuis.setText(dataList.get(position).getLinkkuis());
         holder.Nilai.setText(dataList.get(position).getLinknilai());
 

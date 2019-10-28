@@ -77,21 +77,22 @@ public class AccountFrag extends Fragment implements View.OnClickListener{
     FloatingActionButton fab;
     ProgressBar progressBar;
     CircleImageView profil_image;
+    private Activity mActivity;
 
     private final int IMG_REQUEST = 1;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.frag_account, container, false);
 
-        txtUsername = (EditText) v.findViewById(R.id.txtusername);
-        txtEmail = (EditText) v.findViewById(R.id.txtemail);
-        txtPass = (EditText) v.findViewById(R.id.txtPassword);
-        ViewAccount = (ImageView) v.findViewById(R.id.ViewAcc);
-        btnlogout = (Button) v.findViewById(R.id.logout);
-        ViewPass = (ImageView) v.findViewById(R.id.ViewPass);
-        profil_image = (CircleImageView) v.findViewById(R.id.profile_image);
-        edit_user = (ImageView) v.findViewById(R.id.Edit_user);
-        save_user = (ImageView) v.findViewById(R.id.Save_user);
+        txtUsername = v.findViewById(R.id.txtusername);
+        txtEmail = v.findViewById(R.id.txtemail);
+        txtPass = v.findViewById(R.id.txtPassword);
+        ViewAccount = v.findViewById(R.id.ViewAcc);
+        btnlogout = v.findViewById(R.id.logout);
+        ViewPass = v.findViewById(R.id.ViewPass);
+        profil_image = v.findViewById(R.id.profile_image);
+        edit_user = v.findViewById(R.id.Edit_user);
+        save_user = v.findViewById(R.id.Save_user);
         fab = v.findViewById(R.id.changeImage);
         progressBar = v.findViewById(R.id.LoadImage);
 
@@ -141,7 +142,6 @@ public class AccountFrag extends Fragment implements View.OnClickListener{
             public void onClick(View v) {
 
                 alertdialog = new AlertDialog.Builder(getContext()).create();
-
                 alertdialog.setTitle("Logout");
                 alertdialog.setMessage("Are you sure ! logout ?");
                 alertdialog.setCancelable(false);
@@ -169,7 +169,6 @@ public class AccountFrag extends Fragment implements View.OnClickListener{
                 alertdialog.show();
             }
         });
-        onBackPressed();
         checkInternet();
         return v;
     }
@@ -202,11 +201,6 @@ public class AccountFrag extends Fragment implements View.OnClickListener{
         return WIFI||DATA_MOBILE;
     }
 
-    public void onBackPressed() {
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        fm.popBackStack();
-    }
-
     public void load(){
         String id = shared.getString("idKey", "");
         progressBar.setVisibility(View.VISIBLE);
@@ -235,10 +229,14 @@ public class AccountFrag extends Fragment implements View.OnClickListener{
                         txtEmail.setText("" + email);
                         txtPass.setText("" + password);
 
+                        if (mActivity == null) {
+                            return;
+                        }
+
                         RequestOptions requestOptions = new RequestOptions()
                                 .diskCacheStrategy(DiskCacheStrategy.NONE) // because file name is always same
                                 .skipMemoryCache(true);
-                        Glide.with(getContext())
+                        Glide.with(getActivity())
                                 .load(foto)
                                 .apply(requestOptions)
                                 .into(profil_image);
@@ -432,5 +430,17 @@ public class AccountFrag extends Fragment implements View.OnClickListener{
         };
 
         requestQueue.add(stringRequest);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mActivity = getActivity();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mActivity = null;
     }
 }

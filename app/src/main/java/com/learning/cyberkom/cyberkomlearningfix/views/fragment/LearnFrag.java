@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -62,10 +61,6 @@ public class LearnFrag extends Fragment implements SwipeRefreshLayout.OnRefreshL
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        learnList = new ArrayList<>();
-        adapter = new LearnAdapter(learnList, getContext().getApplicationContext());
-        recyclerView.setAdapter(adapter);
 
         swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_container);
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -139,7 +134,7 @@ public class LearnFrag extends Fragment implements SwipeRefreshLayout.OnRefreshL
     }
 
     public void loadData(){
-        learnList.clear();
+        learnList = new ArrayList<>();
         ApiURL apiURL = new ApiURL();
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         requestQueue.getCache().clear();
@@ -171,6 +166,8 @@ public class LearnFrag extends Fragment implements SwipeRefreshLayout.OnRefreshL
                     }
 
                     swipeRefreshLayout.setRefreshing(false);
+                    adapter = new LearnAdapter(learnList, getActivity());
+                    recyclerView.setAdapter(adapter);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -178,7 +175,6 @@ public class LearnFrag extends Fragment implements SwipeRefreshLayout.OnRefreshL
                 }
 
                 showLoading(false);
-                adapter.notifyDataSetChanged();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -196,5 +192,4 @@ public class LearnFrag extends Fragment implements SwipeRefreshLayout.OnRefreshL
     public void onRefresh() {
         checkInternet();
     }
-
 }
