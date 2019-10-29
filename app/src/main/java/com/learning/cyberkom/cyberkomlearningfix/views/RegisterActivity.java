@@ -43,16 +43,16 @@ public class RegisterActivity extends AppCompatActivity{
         setContentView(R.layout.activity_register);
 
         //Edit Text
-        name = (EditText) findViewById(R.id.name);
-        reg_email = (EditText) findViewById(R.id.email);
-        password = (EditText) findViewById(R.id.password);
-        txtpengguna = (TextView) findViewById(R.id.txtpengguna);
+        name = findViewById(R.id.name);
+        reg_email = findViewById(R.id.email);
+        password = findViewById(R.id.password);
+        txtpengguna = findViewById(R.id.txtpengguna);
 
         //Button
         register = (Button) findViewById(R.id.btnRegister);
         spotsDialog = new SpotsDialog(this, R.style.Custom);
         spotsDialog.setTitle("waiting..");
-        txtpengguna.setText("mahasiswa");
+        txtpengguna.setText("anggota");
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +87,7 @@ public class RegisterActivity extends AppCompatActivity{
 
                 Log.i("Hitesh", "" + response);
                 Toast.makeText(RegisterActivity.this, response, Toast.LENGTH_LONG).show();
+                finish();
                 spotsDialog.dismiss();
             }
         }, new Response.ErrorListener() {
